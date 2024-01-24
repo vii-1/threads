@@ -1,8 +1,11 @@
 import AccountProfile from "@/components/form/AccountProfile";
 import { currentUser } from "@clerk/nextjs";
+import { fetchUser } from "@/lib/actions/user.action";
 async function Page() {
     const user=await currentUser();
-    const userInfo={}
+    if (!user) return null;
+
+    const userInfo=await fetchUser(user.id);
     const userData={
         id:user?.id,
         objectId:userInfo?.id,
@@ -22,5 +25,4 @@ async function Page() {
         </main>
     )
 }
-
 export default Page;
